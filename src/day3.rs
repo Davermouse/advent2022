@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::Read;
-use std::iter::ArrayChunks;
 
 fn score_for_item(item: char) -> i32 {
     return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".find(item).expect("Unknown item") as i32 + 1;

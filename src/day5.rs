@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 
@@ -10,20 +9,20 @@ fn parse_stacks(text: &str) -> Vec<Vec<char>> {
     let mut rows = text.split("\n").collect::<Vec<_>>();
     rows.reverse();
 
-    let stackCount = rows.get(0).expect("Must have stack names").split_whitespace().count();
+    let stack_count = rows.get(0).expect("Must have stack names").split_whitespace().count();
 
-    for _ in 0..stackCount {
+    for _ in 0..stack_count {
         stacks.push(Vec::new());
     }
 
     // [V] [V] [D] [G] [F] [D]     [V] 
-    for itemsRow in rows.iter().skip(1) {
-        for si in 0..stackCount {
-            let item = itemsRow.chars().nth(1 + 4 * si);
+    for items_row in rows.iter().skip(1) {
+        for si in 0..stack_count {
+            let item = items_row.chars().nth(1 + 4 * si);
 
             if let Some(i) = item {
                 if i != ' ' {
-                    let mut stack = stacks.get_mut(si).expect("Missing stack");
+                    let stack = stacks.get_mut(si).expect("Missing stack");
                     stack.push(i);
                 }
             }
@@ -55,13 +54,13 @@ pub fn run_day5() {
     let mut stacks_1 = parse_stacks(main_parts.get(0).expect("Must have stack definitions"));
     let moves = parse_moves(main_parts.get(1).expect("Must have move definitions"));
 
-    for (count, fromIndex, toIndex) in moves.iter() {
+    for (count, from_index,to_index) in moves.iter() {
         for _ in 0..*count {
-            let mut from = stacks_1.get_mut(fromIndex - 1).expect("Missing from stack");
+            let from = stacks_1.get_mut(from_index - 1).expect("Missing from stack");
 
             let item = from.pop().expect("From stack must contain something");
 
-            let mut to = stacks_1.get_mut(toIndex - 1).expect("Missing to stack");
+            let to = stacks_1.get_mut(to_index - 1).expect("Missing to stack");
 
             to.push(item);
 
@@ -75,8 +74,8 @@ pub fn run_day5() {
 
     let mut stacks_2 = parse_stacks(main_parts.get(0).expect("Must have stack definitions"));
 
-    for (count, fromIndex, toIndex) in moves.iter() {
-        let mut from = stacks_2.get_mut(*fromIndex - 1).expect("Missing from stack");
+    for (count, from_index,to_index) in moves.iter() {
+        let from = stacks_2.get_mut(*from_index - 1).expect("Missing from stack");
 
         let mut items = Vec::new();
 
@@ -86,7 +85,7 @@ pub fn run_day5() {
 
         items.reverse();
         
-        let mut to = stacks_2.get_mut(toIndex - 1).expect("Missing to stack");
+        let to = stacks_2.get_mut(to_index - 1).expect("Missing to stack");
 
         for i in items {
             to.push(i);
