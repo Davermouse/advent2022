@@ -8,6 +8,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 fn main() {
     println!("Starting AoC!");
@@ -20,4 +21,5 @@ fn main() {
     day6::run_day6();
     day7::run_day7();
     day8::run_day8();
+    day9::run_day9();
 }

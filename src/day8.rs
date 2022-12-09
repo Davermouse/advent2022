@@ -5,7 +5,7 @@ fn is_tree_visible(forest: &Vec<Vec<u32>>, x: usize, y: usize) -> bool {
     let size = forest.len();
 
     if x == 0 || y == 0 || x == size - 1 || y == size - 1 {
-        return true;;
+        return true;
     }
 
     let row = forest.get(y).expect("Tree must be in a row");
