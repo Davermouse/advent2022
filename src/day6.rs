@@ -3,7 +3,6 @@ use std::fs::File;
 use std::io::Read;
 
 fn find_marker(s: &String, len: usize) -> usize {
-
     for i in len..s.len() {
         let mut chars:HashSet<char> = HashSet::new();
 

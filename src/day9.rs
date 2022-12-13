@@ -15,7 +15,7 @@ impl Vector {
         Vector { x: self.x + other.x, y: self.y + other.y }
     }
 
-    fn dist(self, other: &Vector) -> u32 {
+    fn manhattan_dist(self, other: &Vector) -> u32 {
         return i32::abs_diff(self.x, other.x) + i32::abs_diff(self.y, other.y)
     }
 }
@@ -55,17 +55,18 @@ fn move_rope(rope: &Vec<Vector>, dir: char) -> Vec<Vector> {
         let mut updated_segment = tail_segment.clone();
 
         // If the head is ever two steps directly up, down, left, or right from the tail, the tail must also move one step in that direction so it remains close enough
-        if 
+        if
             (last_segment.x == updated_segment.x && i32::abs_diff(last_segment.y, updated_segment.y) > 1) ||
             (last_segment.y == updated_segment.y && i32::abs_diff(last_segment.x, updated_segment.x) > 1)
         {
-            updated_segment = updated_segment.add(&Vector { 
-                x: if last_segment.x < updated_segment.x { -1 } else if last_segment.x > updated_segment.x { 1 } else { 0 }, 
-                y: if last_segment.y < updated_segment.y { -1 } else if last_segment.y > updated_segment.y { 1 } else { 0 }
-            });
-        } else if last_segment.dist(&updated_segment) > 2 {
+            updated_segment = updated_segment.add(
+                &Vector {
+                    x: if last_segment.x < updated_segment.x { -1 } else if last_segment.x > updated_segment.x { 1 } else { 0 }, 
+                    y: if last_segment.y < updated_segment.y { -1 } else if last_segment.y > updated_segment.y { 1 } else { 0 }
+                }
+            );
+        } else if last_segment.manhattan_dist(&updated_segment) > 2 {
             // Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:
-
             updated_segment = updated_segment.add(
                 &Vector {
                     x: if updated_segment.x < last_segment.x { 1 } else { -1 },
@@ -107,7 +108,7 @@ fn run_moves(moves: &Vec<Move>, length: i32) -> i32 {
 pub fn run_day9() {
     println!("Starting day 9!");
 
-    let mut f = File::open("data/day9.txt").expect("File not found");
+    let mut f = File::open("data/day9_chuck.txt").expect("File not found");
     let mut s = String::new();
     f.read_to_string(&mut s).expect("Unable to load file");
 
@@ -130,7 +131,7 @@ mod tests {
 
     #[test]
     fn test_move() {
-        let mut rope = vec!(
+        let rope = vec!(
             Vector { x: 0, y: 0 },
             Vector { x: 0, y: 0 }
         );
